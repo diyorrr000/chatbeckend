@@ -1,17 +1,14 @@
 {
-    "name": "chat-backend",
+    "name": "chat-backend-no-db",
     "version": "1.0.0",
-    "description": "",
+    "description": "Zero-DB Chat Backend",
     "main": "index.js",
     "scripts": {
-        "start": "node index.js",
-        "dev": "nodemon index.js"
+        "start": "node index.js"
     },
     "dependencies": {
         "cors": "^2.8.5",
-        "dotenv": "^16.0.0",
         "express": "^4.18.2",
-        "mongoose": "^7.0.0",
         "socket.io": "^4.6.1"
     }
 }
