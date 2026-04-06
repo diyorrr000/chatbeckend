@@ -17,7 +17,7 @@ const io = new Server(server, {
 app.use(cors());
 app.use(express.json());
 
-// --- HEALTH CHECK FOR CRONJOB ---
+// --- HEALTH CHECK ---
 app.get('/ping', (req, res) => {
     res.send('Server is alive! 🚀');
 });
@@ -37,7 +37,12 @@ initFile(MESSAGES_FILE, []);
 const readData = (filePath) => JSON.parse(fs.readFileSync(filePath));
 const writeData = (filePath, data) => fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 
-const generateId = () => Math.random().toString(36).substring(2, 11);
+// --- QISQA ID GENERATOR (6 tali raqam) ---
+const generateShortId = () => {
+    const first = Math.floor(100 + Math.random() * 900);
+    const second = Math.floor(100 + Math.random() * 900);
+    return `${first}-${second}`;
+};
 
 // --- REST API ROUTES ---
 
@@ -51,7 +56,7 @@ app.post('/api/users', (req, res) => {
         }
 
         const newUser = {
-            _id: generateId(),
+            _id: generateShortId(), // Yangi qisqa ID
             firstName,
             lastName,
             username,
@@ -133,4 +138,4 @@ io.on('connection', (socket) => {
 });
 
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => console.log(`🚀 File-Storage Server running on port ${PORT}`));
+server.listen(PORT, () => console.log(`🚀 Short-ID Server running on port ${PORT}`));
