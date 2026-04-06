@@ -17,11 +17,15 @@ const io = new Server(server, {
 app.use(cors());
 app.use(express.json());
 
+// --- HEALTH CHECK FOR CRONJOB ---
+app.get('/ping', (req, res) => {
+    res.send('Server is alive! 🚀');
+});
+
 // --- FILE STORAGE LOGIC ---
 const USERS_FILE = path.join(__dirname, 'users.json');
 const MESSAGES_FILE = path.join(__dirname, 'messages.json');
 
-// Initialize files if they don't exist
 const initFile = (filePath, initialData) => {
     if (!fs.existsSync(filePath)) {
         fs.writeFileSync(filePath, JSON.stringify(initialData, null, 2));
@@ -33,7 +37,6 @@ initFile(MESSAGES_FILE, []);
 const readData = (filePath) => JSON.parse(fs.readFileSync(filePath));
 const writeData = (filePath, data) => fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 
-// Helper to generate IDs
 const generateId = () => Math.random().toString(36).substring(2, 11);
 
 // --- REST API ROUTES ---
